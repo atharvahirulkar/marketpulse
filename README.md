@@ -1,4 +1,4 @@
-# MarketPulse
+# SignalStack
 
 > Real-time market data pipeline - Kafka · PySpark Structured Streaming · TimescaleDB · Grafana
 
@@ -10,7 +10,7 @@
 
 ## What this is
 
-MarketPulse is an end-to-end streaming data pipeline that ingests real-time equity tick data from [Polygon.io](https://polygon.io), computes rolling market microstructure metrics via PySpark Structured Streaming, persists them to a TimescaleDB hypertable, and surfaces them on a live Grafana dashboard - all containerized with Docker Compose.
+SignalStack is an end-to-end streaming data pipeline that ingests real-time equity tick data from [Polygon.io](https://polygon.io), computes rolling market microstructure metrics via PySpark Structured Streaming, persists them to a TimescaleDB hypertable, and surfaces them on a live Grafana dashboard - all containerized with Docker Compose.
 
 This is not a tutorial project. The goal is a production-grade pipeline architecture with measurable throughput, sub-100ms end-to-end latency, and a backfill path for historical data.
 
@@ -61,7 +61,7 @@ Alongside the live stream, a **backfill pipeline** pulls historical data from th
 ## Project structure
 
 ```
-marketpulse/
+SignalStack/
 ├── ingestion/
 │   ├── polygon_ws.py        # WebSocket → Kafka producer
 │   └── producer.py          # Kafka producer utilities
@@ -105,8 +105,8 @@ marketpulse/
 
 ```bash
 # 1. Clone and configure
-git clone https://github.com/atharvahirulkar/marketpulse.git
-cd marketpulse
+git clone https://github.com/atharvahirulkar/SignalStack.git
+cd SignalStack
 cp .env.example .env
 # Add your Polygon.io API key to .env
 
@@ -124,7 +124,7 @@ python ingestion/polygon_ws.py
 spark-submit streaming/spark_consumer.py
 
 # 6. Open Grafana
-open http://localhost:3000  # admin / marketpulse
+open http://localhost:3000  # admin / SignalStack
 ```
 
 ---
