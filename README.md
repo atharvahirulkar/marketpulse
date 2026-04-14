@@ -1,6 +1,6 @@
 # SignalStack
 
-> Real-time ML systems pipeline — Polygon.io · Kafka · PySpark · TimescaleDB · Grafana · MLflow
+> Real-time ML systems pipeline - Polygon.io · Kafka · PySpark · TimescaleDB · Grafana · MLflow
 
 ![Status](https://img.shields.io/badge/status-in%20development-yellow)
 ![Python](https://img.shields.io/badge/python-3.11-blue)
@@ -12,7 +12,7 @@
 
 SignalStack is a production-grade, end-to-end ML systems pipeline for real-time equity markets.
 
-It ingests live tick data from Polygon.io via WebSocket, streams it through Kafka, computes market microstructure features via PySpark Structured Streaming, persists everything to TimescaleDB hypertables, trains ML models (LSTM, XGBoost, Isolation Forest) on engineered features, and surfaces predictions and system health on a live Grafana dashboard — all containerized with Docker Compose.
+It ingests live tick data from Polygon.io via WebSocket, streams it through Kafka, computes market microstructure features via PySpark Structured Streaming, persists everything to TimescaleDB hypertables, trains ML models (LSTM, XGBoost, Isolation Forest) on engineered features, and surfaces predictions and system health on a live Grafana dashboard - all containerized with Docker Compose.
 
 This is not a tutorial project. Every component is written for throughput (>1,000 ticks/sec), low latency (<100ms end-to-end), and production observability.
 
@@ -95,7 +95,7 @@ SignalStack/
 │   ├── polygon_ws.py            # WebSocket → Kafka producer (async, reconnection)
 │   └── producer.py              # Kafka producer singleton + topic management
 ├── streaming/
-│   ├── spark_consumer.py        # PySpark pipeline — parse, window, feature UDF, sink
+│   ├── spark_consumer.py        # PySpark pipeline - parse, window, feature UDF, sink
 │   ├── metrics.py               # VWAP, realized vol, momentum, volume ratio (pandas)
 │   └── watermark.py             # Window specs, event-time helpers, dedup
 ├── storage/
@@ -133,7 +133,7 @@ SignalStack/
 | `trade_count_1m` | Number of trades | 1 min tumbling |
 | `avg_trade_size_1m` | Mean shares per trade | 1 min tumbling |
 
-Features are written back to TimescaleDB with point-in-time correctness — no lookahead bias for model training.
+Features are written back to TimescaleDB with point-in-time correctness - no lookahead bias for model training.
 
 ---
 
@@ -146,7 +146,7 @@ Features are written back to TimescaleDB with point-in-time correctness — no l
 git clone https://github.com/atharvahirulkar/SignalStack.git
 cd SignalStack
 cp .env.example .env
-# Edit .env — add POLYGON_API_KEY and your TICKERS
+# Edit .env - add POLYGON_API_KEY and your TICKERS
 
 # 2. Start the full infrastructure stack
 docker compose up -d
@@ -185,27 +185,27 @@ open http://localhost:5001   # MLflow
 
 ## Why TimescaleDB
 
-TimescaleDB is PostgreSQL with a time-series extension — standard SQL, mature tooling, and continuous aggregates that auto-materialize OHLCV views without a separate job. Compression policies cut storage 10–20× vs raw rows. The point-in-time query semantics make it correct for ML feature serving without lookahead bias — something InfluxDB and ClickHouse make much harder.
+TimescaleDB is PostgreSQL with a time-series extension - standard SQL, mature tooling, and continuous aggregates that auto-materialize OHLCV views without a separate job. Compression policies cut storage 10–20× vs raw rows. The point-in-time query semantics make it correct for ML feature serving without lookahead bias - something InfluxDB and ClickHouse make much harder.
 
 ---
 
 ## Status
 
-- [x] Docker Compose stack — Kafka, TimescaleDB, Grafana, MLflow
-- [x] TimescaleDB schema — hypertables, compression, retention, continuous aggregates
-- [x] Polygon.io WebSocket producer — async, exponential backoff, >1000 msg/sec
-- [x] Kafka producer utilities — singleton, topic management, serialization
-- [x] PySpark streaming consumer — dedup, watermark, windowed OHLCV
-- [x] Feature engineering — VWAP, volatility, momentum, volume ratio (pandas UDF)
+- [x] Docker Compose stack - Kafka, TimescaleDB, Grafana, MLflow
+- [x] TimescaleDB schema - hypertables, compression, retention, continuous aggregates
+- [x] Polygon.io WebSocket producer - async, exponential backoff, >1000 msg/sec
+- [x] Kafka producer utilities - singleton, topic management, serialization
+- [x] PySpark streaming consumer - dedup, watermark, windowed OHLCV
+- [x] Feature engineering - VWAP, volatility, momentum, volume ratio (pandas UDF)
 - [x] TimescaleDB async batch writer
-- [x] Backfill pipeline — Polygon REST paginator with gap detection
-- [x] Backfill scheduler — daily auto-heal daemon
-- [x] Grafana provisioning — datasource + dashboard config
+- [x] Backfill pipeline - Polygon REST paginator with gap detection
+- [x] Backfill scheduler - daily auto-heal daemon
+- [x] Grafana provisioning - datasource + dashboard config
 - [x] Multi-stage Dockerfile
-- [x] GitHub Actions CI — lint, test, Docker build
-- [ ] ML training — LSTM, XGBoost, Isolation Forest + MLflow tracking
+- [x] GitHub Actions CI - lint, test, Docker build
+- [ ] ML training - LSTM, XGBoost, Isolation Forest + MLflow tracking
 - [ ] FastAPI inference API
-- [ ] Grafana ML dashboards — anomaly overlay, drift monitor
+- [ ] Grafana ML dashboards - anomaly overlay, drift monitor
 - [ ] Performance benchmarks (measured)
 - [ ] Architecture diagram (screenshot)
 
@@ -213,5 +213,5 @@ TimescaleDB is PostgreSQL with a time-series extension — standard SQL, mature 
 
 ## Author
 
-**Atharva Hirulkar** — MS Data Science, UC San Diego  
+**Atharva Hirulkar** - MS Data Science, UC San Diego  
 [GitHub](https://github.com/atharvahirulkar) · [LinkedIn](https://linkedin.com/in/atharva-hirulkar)
