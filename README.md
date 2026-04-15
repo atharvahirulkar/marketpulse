@@ -14,8 +14,6 @@ SignalStack is a production-grade, end-to-end ML systems pipeline for real-time 
 
 It ingests live tick data from Polygon.io via WebSocket, streams it through Kafka, computes market microstructure features via PySpark Structured Streaming, persists everything to TimescaleDB hypertables, trains ML models (LSTM, XGBoost, Isolation Forest) on engineered features, and surfaces predictions and system health on a live Grafana dashboard - all containerized with Docker Compose.
 
-This is not a tutorial project. Every component is written for throughput (>1,000 ticks/sec), low latency (<100ms end-to-end), and production observability.
-
 ---
 
 ## Architecture
