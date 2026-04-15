@@ -53,9 +53,7 @@ ARTIFACT_DIR  = Path(os.getenv("ARTIFACT_DIR", "artifacts"))
 DEVICE        = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-# ─────────────────────────────────────────────
-# LSTM trainer
-# ─────────────────────────────────────────────
+# LSTM trainer 
 
 def train_lstm(
     X_train: np.ndarray, y_train: np.ndarray,
@@ -166,9 +164,8 @@ def train_lstm(
     return model, metrics
 
 
-# ─────────────────────────────────────────────
+
 # Main training orchestrator
-# ─────────────────────────────────────────────
 
 async def run_training(
     symbols:      list[str],
@@ -330,9 +327,7 @@ async def run_training(
     log.info("training | complete. MLflow run logged to %s", MLFLOW_URI)
 
 
-# ─────────────────────────────────────────────
 # CLI
-# ─────────────────────────────────────────────
 
 def main() -> None:
     logging.basicConfig(

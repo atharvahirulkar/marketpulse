@@ -46,9 +46,8 @@ from streaming.watermark import (
 load_dotenv()
 log = logging.getLogger("signalstack.spark")
 
-# ─────────────────────────────────────────────
+
 # Config
-# ─────────────────────────────────────────────
 
 KAFKA_BOOTSTRAP  = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
 KAFKA_TOPIC_IN   = os.getenv("KAFKA_TOPIC_IN",  "market.trades")
@@ -66,9 +65,8 @@ JDBC_URL = f"jdbc:postgresql://{_host_db}"
 JDBC_PROPS = {"user": _user, "password": _pass, "driver": "org.postgresql.Driver"}
 
 
-# ─────────────────────────────────────────────
+
 # Schema
-# ─────────────────────────────────────────────
 
 TRADE_SCHEMA = StructType([
     StructField("event_type",    StringType(),  True),
@@ -83,9 +81,8 @@ TRADE_SCHEMA = StructType([
 ])
 
 
-# ─────────────────────────────────────────────
+
 # Spark session
-# ─────────────────────────────────────────────
 
 def build_spark() -> SparkSession:
     return (
@@ -108,9 +105,7 @@ def build_spark() -> SparkSession:
     )
 
 
-# ─────────────────────────────────────────────
 # Source: Kafka → parsed trades DataFrame
-# ─────────────────────────────────────────────
 
 def read_trades(spark: SparkSession):
     raw = (
@@ -145,9 +140,8 @@ def read_trades(spark: SparkSession):
     return parsed
 
 
-# ─────────────────────────────────────────────
+
 # Sinks
-# ─────────────────────────────────────────────
 
 def sink_to_timescale(df, table: str, checkpoint: str, trigger_secs: int = 5):
     """Write micro-batches to TimescaleDB via JDBC foreachBatch."""
@@ -193,9 +187,8 @@ def sink_to_kafka(df, topic: str, checkpoint: str):
     )
 
 
-# ─────────────────────────────────────────────
+
 # Main pipeline
-# ─────────────────────────────────────────────
 
 def run() -> None:
     spark = build_spark()

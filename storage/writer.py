@@ -37,9 +37,7 @@ POOL_MIN     = int(os.getenv("DB_POOL_MIN", "2"))
 POOL_MAX     = int(os.getenv("DB_POOL_MAX", "10"))
 
 
-# ─────────────────────────────────────────────
 # Pool singleton
-# ─────────────────────────────────────────────
 
 _pool: asyncpg.Pool | None = None
 
@@ -66,9 +64,7 @@ async def close_pool() -> None:
         log.info("db | pool closed")
 
 
-# ─────────────────────────────────────────────
 # Insert helpers
-# ─────────────────────────────────────────────
 
 _TRADE_COLS = ("time", "symbol", "price", "size", "exchange_id", "conditions", "tape", "ingested_at")
 
@@ -176,10 +172,7 @@ _INSERT_FNS = {
 }
 
 
-# ─────────────────────────────────────────────
 # Writer class
-# ─────────────────────────────────────────────
-
 @dataclass
 class WriterMetrics:
     inserted:  int = 0
@@ -296,9 +289,7 @@ class TimescaleWriter:
                         self._metrics.dropped += 1
 
 
-# ─────────────────────────────────────────────
 # Module-level singleton
-# ─────────────────────────────────────────────
 
 _writer: TimescaleWriter | None = None
 

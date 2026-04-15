@@ -35,9 +35,7 @@ PSI_WARN_THRESH  = 0.1
 PSI_ALERT_THRESH = 0.2
 
 
-# ─────────────────────────────────────────────
 # PSI
-# ─────────────────────────────────────────────
 
 def compute_psi(
     reference: np.ndarray,
@@ -106,9 +104,7 @@ def psi_status(psi: float) -> str:
         return "alert"
 
 
-# ─────────────────────────────────────────────
 # KL Divergence
-# ─────────────────────────────────────────────
 
 def compute_kl_divergence(
     reference: np.ndarray,
@@ -135,9 +131,7 @@ def compute_kl_divergence(
     return float(np.sum(ref_hist * np.log(ref_hist / cur_hist)))
 
 
-# ─────────────────────────────────────────────
 # Online drift monitor
-# ─────────────────────────────────────────────
 
 @dataclass
 class DriftMonitor:

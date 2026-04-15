@@ -36,9 +36,8 @@ N_FEATURES = 10   # must match len(FEATURE_COLS) in dataset.py
 N_CLASSES  = 3    # -1 (down), 0 (flat), 1 (up)
 
 
-# ─────────────────────────────────────────────
+
 # Label encoding helpers
-# ─────────────────────────────────────────────
 
 LABEL_TO_IDX = {-1: 0, 0: 1, 1: 2}
 IDX_TO_LABEL = {0: -1, 1: 0, 2: 1}
@@ -52,9 +51,8 @@ def decode_labels(y: np.ndarray) -> np.ndarray:
     return np.vectorize(IDX_TO_LABEL.get)(y)
 
 
-# ─────────────────────────────────────────────
+
 # LSTM model
-# ─────────────────────────────────────────────
 
 class LSTMModel(nn.Module):
     """

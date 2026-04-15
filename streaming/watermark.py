@@ -15,9 +15,7 @@ from pyspark.sql import functions as F
 from pyspark.sql.types import LongType
 
 
-# ─────────────────────────────────────────────
 # Window definitions
-# ─────────────────────────────────────────────
 
 @dataclass(frozen=True)
 class WindowSpec:
@@ -45,9 +43,7 @@ WINDOWS = {
 }
 
 
-# ─────────────────────────────────────────────
 # Event-time column helpers
-# ─────────────────────────────────────────────
 
 def add_event_time(df: DataFrame, ts_col: str = "timestamp_ms") -> DataFrame:
     """
@@ -79,9 +75,7 @@ def add_latency_ms(df: DataFrame,
     )
 
 
-# ─────────────────────────────────────────────
 # OHLCV aggregation within a window
-# ─────────────────────────────────────────────
 
 def aggregate_ohlcv(df: DataFrame) -> DataFrame:
     """
@@ -105,9 +99,7 @@ def aggregate_ohlcv(df: DataFrame) -> DataFrame:
     ).drop("window")
 
 
-# ─────────────────────────────────────────────
 # Deduplication
-# ─────────────────────────────────────────────
 
 def deduplicate(df: DataFrame,
                 key_cols: list[str] | None = None,

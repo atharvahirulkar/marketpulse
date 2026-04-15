@@ -3,15 +3,13 @@
 -- Run once against your TimescaleDB instance.
 -- Idempotent: safe to re-run (IF NOT EXISTS throughout).
 
--- ─────────────────────────────────────────────
+
 -- Extensions
--- ─────────────────────────────────────────────
 CREATE EXTENSION IF NOT EXISTS timescaledb;
 CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
 
--- ─────────────────────────────────────────────
+
 -- Raw trades  (high-volume, short retention)
--- ─────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS trades (
     time            TIMESTAMPTZ     NOT NULL,
     symbol          TEXT            NOT NULL,
@@ -46,9 +44,8 @@ SELECT add_compression_policy('trades', INTERVAL '2 hours', if_not_exists => TRU
 SELECT add_retention_policy('trades', INTERVAL '7 days',   if_not_exists => TRUE);
 
 
--- ─────────────────────────────────────────────
+
 -- 1-minute OHLCV bars  (pre-aggregated)
--- ─────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS ohlcv_1m (
     time        TIMESTAMPTZ     NOT NULL,
     symbol      TEXT            NOT NULL,
@@ -80,9 +77,8 @@ SELECT add_compression_policy('ohlcv_1m', INTERVAL '1 day',  if_not_exists => TR
 SELECT add_retention_policy('ohlcv_1m',  INTERVAL '90 days', if_not_exists => TRUE);
 
 
--- ─────────────────────────────────────────────
+
 -- Feature store  (ML features, point-in-time safe)
--- ─────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS features (
     time                TIMESTAMPTZ     NOT NULL,   -- event time (bar close)
     symbol              TEXT            NOT NULL,
@@ -127,9 +123,7 @@ SELECT add_compression_policy('features', INTERVAL '3 days',  if_not_exists => T
 SELECT add_retention_policy('features',   INTERVAL '365 days', if_not_exists => TRUE);
 
 
--- ─────────────────────────────────────────────
 -- Anomaly events  (model output)
--- ─────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS anomalies (
     time            TIMESTAMPTZ     NOT NULL,
     symbol          TEXT            NOT NULL,
@@ -156,9 +150,8 @@ CREATE INDEX IF NOT EXISTS idx_anomalies_is_anomaly
 SELECT add_retention_policy('anomalies', INTERVAL '365 days', if_not_exists => TRUE);
 
 
--- ─────────────────────────────────────────────
+
 -- Model registry  (track trained models)
--- ─────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS model_registry (
     id              SERIAL          PRIMARY KEY,
     model_name      TEXT            NOT NULL,
@@ -176,9 +169,7 @@ CREATE TABLE IF NOT EXISTS model_registry (
 );
 
 
--- ─────────────────────────────────────────────
 -- Continuous aggregates (materialised views)
--- ─────────────────────────────────────────────
 CREATE MATERIALIZED VIEW IF NOT EXISTS ohlcv_5m
 WITH (timescaledb.continuous) AS
     SELECT

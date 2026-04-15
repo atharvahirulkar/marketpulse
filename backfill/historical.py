@@ -42,9 +42,7 @@ REQUEST_DELAY   = float(os.getenv("BACKFILL_REQUEST_DELAY", "0.25"))  # seconds
 MAX_RESULTS     = int(os.getenv("BACKFILL_MAX_RESULTS", "50000"))
 
 
-# ─────────────────────────────────────────────
 # Polygon REST client
-# ─────────────────────────────────────────────
 
 class PolygonRestClient:
     def __init__(self, api_key: str, session: aiohttp.ClientSession):
@@ -141,9 +139,8 @@ class PolygonRestClient:
                 await asyncio.sleep(REQUEST_DELAY)
 
 
-# ─────────────────────────────────────────────
+
 # Transform Polygon bar → signalstack tick format
-# ─────────────────────────────────────────────
 
 def bar_to_tick(symbol: str, bar: dict) -> dict:
     """
@@ -174,10 +171,8 @@ def bar_to_tick(symbol: str, bar: dict) -> dict:
     }
 
 
-# ─────────────────────────────────────────────
-# Backfill orchestrator
-# ─────────────────────────────────────────────
 
+# Backfill orchestrator
 class BackfillJob:
     def __init__(
         self,
@@ -252,9 +247,8 @@ class BackfillJob:
         return count
 
 
-# ─────────────────────────────────────────────
+
 # Date chunking (avoids timeout on large ranges)
-# ─────────────────────────────────────────────
 
 def chunk_date_range(start: date, end: date, chunk_days: int = 30):
     """Yield (chunk_start, chunk_end) pairs."""

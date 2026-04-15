@@ -33,9 +33,8 @@ from aiokafka import AIOKafkaProducer
 from aiokafka.errors import KafkaConnectionError
 from dotenv import load_dotenv
 
-# ---------------------------------------------------------------------------
+
 # Config & Logging
-# ---------------------------------------------------------------------------
 
 load_dotenv()
 
@@ -49,9 +48,7 @@ logging.basicConfig(
 log = logging.getLogger("signalstack.ingestion")
 
 
-# ---------------------------------------------------------------------------
 # Settings (loaded from .env)
-# ---------------------------------------------------------------------------
 
 @dataclass
 class Settings:
@@ -97,9 +94,8 @@ class Settings:
         return [f"T.{t.strip().upper()}" for t in self.tickers.split(",") if t.strip()]
 
 
-# ---------------------------------------------------------------------------
+
 # Metrics (lightweight, no external dependency)
-# ---------------------------------------------------------------------------
 
 class Metrics:
     """Simple in-process counters. Log them periodically for observability."""
@@ -133,9 +129,8 @@ class Metrics:
             self._last_log_ts = now
 
 
-# ---------------------------------------------------------------------------
+
 # Message parsing
-# ---------------------------------------------------------------------------
 
 def parse_trade(raw: dict) -> Optional[dict]:
     """
@@ -171,9 +166,8 @@ def parse_trade(raw: dict) -> Optional[dict]:
         return None
 
 
-# ---------------------------------------------------------------------------
+
 # Kafka producer factory
-# ---------------------------------------------------------------------------
 
 async def build_kafka_producer(settings: Settings) -> AIOKafkaProducer:
     """Create and start an AIOKafkaProducer tuned for throughput."""
@@ -202,9 +196,8 @@ async def build_kafka_producer(settings: Settings) -> AIOKafkaProducer:
     return producer
 
 
-# ---------------------------------------------------------------------------
+
 # WebSocket handler
-# ---------------------------------------------------------------------------
 
 async def handle_messages(
     websocket: websockets.WebSocketClientProtocol,
@@ -290,9 +283,7 @@ async def _subscribe(websocket: websockets.WebSocketClientProtocol, settings: Se
     log.info("polygon | subscribing to: %s", subscriptions)
 
 
-# ---------------------------------------------------------------------------
 # Main loop with exponential backoff reconnection
-# ---------------------------------------------------------------------------
 
 async def run(settings: Settings, metrics: Metrics, shutdown_event: asyncio.Event) -> None:
     """
@@ -379,9 +370,7 @@ def _backoff(attempt: int, min_wait: float, max_wait: float) -> float:
     return random.uniform(0, capped)
 
 
-# ---------------------------------------------------------------------------
 # Entry point
-# ---------------------------------------------------------------------------
 
 def main() -> None:
     settings = Settings()

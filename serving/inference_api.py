@@ -45,9 +45,8 @@ ARTIFACT_DIR = Path(os.getenv("ARTIFACT_DIR", "artifacts"))
 DEVICE       = torch.device("cpu")   # inference always on CPU
 SEQ_LEN      = int(os.getenv("LSTM_SEQ_LEN", "24"))
 
-# ─────────────────────────────────────────────
+
 # Prometheus metrics
-# ─────────────────────────────────────────────
 
 REQUEST_COUNT = Counter(
     "signalstack_inference_requests_total",
@@ -73,9 +72,7 @@ DRIFT_SCORE = Histogram(
 )
 
 
-# ─────────────────────────────────────────────
 # Model registry (in-process)
-# ─────────────────────────────────────────────
 
 class ModelRegistry:
     def __init__(self) -> None:
@@ -137,9 +134,8 @@ class ModelRegistry:
 registry = ModelRegistry()
 
 
-# ─────────────────────────────────────────────
+
 # Lifespan (startup / shutdown)
-# ─────────────────────────────────────────────
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -158,9 +154,8 @@ app = FastAPI(
 )
 
 
-# ─────────────────────────────────────────────
+
 # Request / response schemas
-# ─────────────────────────────────────────────
 
 class FeatureVector(BaseModel):
     symbol: str
@@ -203,9 +198,8 @@ DIRECTION_LABELS = {-1: "down", 0: "flat", 1: "up"}
 REGIME_LABELS    = {0: "down", 1: "flat", 2: "up"}
 
 
-# ─────────────────────────────────────────────
+
 # Endpoints
-# ─────────────────────────────────────────────
 
 @app.get("/health")
 async def health():
@@ -336,9 +330,7 @@ async def predict_anomaly(req: FeatureVector):
         raise HTTPException(500, str(exc))
 
 
-# ─────────────────────────────────────────────
 # WebSocket: push predictions for live stream
-# ─────────────────────────────────────────────
 
 @app.websocket("/ws/predictions")
 async def ws_predictions(websocket: WebSocket):

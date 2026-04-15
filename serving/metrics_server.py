@@ -50,9 +50,8 @@ DRIFT_CHECK_SECS = int(os.getenv("DRIFT_CHECK_SECS", "300"))        # check ever
 ANOMALY_WINDOW   = int(os.getenv("ANOMALY_WINDOW_MINUTES", "5"))
 
 
-# ─────────────────────────────────────────────
+
 # Metric definitions
-# ─────────────────────────────────────────────
 
 TICKS_PER_SEC = Gauge(
     "signalstack_ticks_per_second",
@@ -97,9 +96,8 @@ PIPELINE_LAG = Gauge(
 )
 
 
-# ─────────────────────────────────────────────
+
 # DB queries for metrics
-# ─────────────────────────────────────────────
 
 async def query_tick_rate(
     pool: asyncpg.Pool, window_seconds: int = 60
@@ -180,10 +178,8 @@ async def query_live_features(
     return np.array([[r[c] for c in FEATURE_COLS] for r in rows], dtype=np.float32)
 
 
-# ─────────────────────────────────────────────
-# Metrics collector
-# ─────────────────────────────────────────────
 
+# Metrics collector
 class MetricsCollector:
     def __init__(self) -> None:
         self._pool: Optional[asyncpg.Pool] = None
@@ -265,9 +261,7 @@ class MetricsCollector:
             log.info("metrics | drift OK | max PSI=%.4f", max(psi_scores.values(), default=0))
 
 
-# ─────────────────────────────────────────────
 # Entry point
-# ─────────────────────────────────────────────
 
 async def main() -> None:
     collector = MetricsCollector()

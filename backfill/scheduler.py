@@ -47,9 +47,8 @@ class GapWindow:
         return (self.expected - self.actual) / self.expected * 100
 
 
-# ─────────────────────────────────────────────
+
 # Gap detection
-# ─────────────────────────────────────────────
 
 # US market hours produce ~390 1-minute bars/day (9:30 AM – 4:00 PM ET)
 EXPECTED_BARS_PER_DAY = 390
@@ -114,9 +113,8 @@ async def detect_gaps(
     return gaps
 
 
-# ─────────────────────────────────────────────
+
 # Backfill trigger
-# ─────────────────────────────────────────────
 
 async def fill_gaps(gaps: list[GapWindow]) -> None:
     if not gaps:
@@ -148,9 +146,7 @@ async def fill_gaps(gaps: list[GapWindow]) -> None:
         await job.run()
 
 
-# ─────────────────────────────────────────────
 # Scheduler daemon
-# ─────────────────────────────────────────────
 
 class BackfillScheduler:
     """
@@ -221,9 +217,8 @@ class BackfillScheduler:
             await self.stop()
 
 
-# ─────────────────────────────────────────────
+
 # CLI
-# ─────────────────────────────────────────────
 
 def main() -> None:
     import argparse

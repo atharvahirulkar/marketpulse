@@ -18,9 +18,8 @@ import numpy as np
 import pandas as pd
 
 
-# ─────────────────────────────────────────────
+
 # VWAP
-# ─────────────────────────────────────────────
 
 def vwap(prices: pd.Series, sizes: pd.Series) -> float:
     """Volume-weighted average price over a window."""
@@ -43,9 +42,8 @@ def rolling_vwap(df: pd.DataFrame, window: str, price_col: str = "price", size_c
     return rolling_pv / rolling_vol.replace(0, float("nan"))
 
 
-# ─────────────────────────────────────────────
+
 # Realized volatility
-# ─────────────────────────────────────────────
 
 def log_returns(prices: pd.Series) -> pd.Series:
     """Log returns: ln(p_t / p_{t-1})."""
@@ -63,9 +61,7 @@ def realized_vol(prices: pd.Series, window: str) -> pd.Series:
     return rets.rolling(window, min_periods=2).std()
 
 
-# ─────────────────────────────────────────────
 # Momentum
-# ─────────────────────────────────────────────
 
 def price_momentum(prices: pd.Series, periods: int) -> pd.Series:
     """
@@ -76,9 +72,8 @@ def price_momentum(prices: pd.Series, periods: int) -> pd.Series:
     return (prices - shifted) / shifted.replace(0, float("nan"))
 
 
-# ─────────────────────────────────────────────
+
 # Volume ratio
-# ─────────────────────────────────────────────
 
 def volume_ratio(volumes: pd.Series, lookback: int = 20) -> pd.Series:
     """
@@ -91,9 +86,8 @@ def volume_ratio(volumes: pd.Series, lookback: int = 20) -> pd.Series:
     return volumes / rolling_mean.replace(0, float("nan"))
 
 
-# ─────────────────────────────────────────────
+
 # Batch feature computation
-# ─────────────────────────────────────────────
 
 def compute_features(df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -143,9 +137,8 @@ def compute_features(df: pd.DataFrame) -> pd.DataFrame:
     return ohlcv
 
 
-# ─────────────────────────────────────────────
+
 # PySpark pandas_udf wrapper
-# ─────────────────────────────────────────────
 
 def make_spark_feature_udf():
     """
